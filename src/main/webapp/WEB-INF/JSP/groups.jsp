@@ -7,26 +7,26 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Groups</title>
 </head>
 <body>
-    <form action = "/student-app/test" method = "POST">
-      <input type="text" name = "firstName">
-      <input type="text" name = "secondName">
-      <input type="submit" value="OK">
+    <form action = "/student-app/groups" method = "POST">
+      <div><span> Group number: </span><input type="text" name = "groupNumber"></div>
+      <div>
+        <input type="submit" value="OK">
+        <input type="reset" value="Clean">
+      </div>
     </form>
     <table>
       <thead>
         <tr>
-          <th> First Name </th>
-          <th> Second Name </th>
+          <th> Group </th>
         </tr>
       </thead>
       <tbody>
-        <c:forEach items="${students}" var="student">
-          <tr>
-            <td>${student.firstName}</td>
-            <td>${student.secondName}</td>
+        <c:forEach items="${groups}" var="group">
+          <tr >
+            <td>${group.groupNumber}</td>
           </tr>
         </c:forEach>
       </tbody>

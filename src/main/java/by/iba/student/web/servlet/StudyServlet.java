@@ -10,30 +10,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import by.iba.student.common.Student;
+import by.iba.student.common.Study;
 
-public class TestServlet extends HttpServlet {
-
-	private static final long serialVersionUID = 6345194112526801506L;
+public class StudyServlet extends HttpServlet {
+	private static final long serialVersionUID = -5549727798241902042L;
 	
-	private final static List<Student> STUDENTS = new ArrayList<Student>();
+    private final static List<Study> STUDIES = new ArrayList<Study>();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		req.setAttribute("students", STUDENTS);
+		req.setAttribute("studies", STUDIES);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/JSP/test.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/JSP/studies.jsp");
 		
 		dispatcher.forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String firstName = req.getParameter("firstName");
-		String secondName = req.getParameter("secondName");
-		STUDENTS.add(new Student(firstName, secondName));
-		System.out.println(String.format("First name: %s, Second name: %s", firstName, secondName));
+		String name = req.getParameter("name");
+		int hours = Integer.parseInt(req.getParameter("hours"));
+		STUDIES.add(new Study(name, hours));
+		System.out.println(String.format("Study name: %s, Hours: %s", name, hours));
 		doGet(req, resp);
 	}
+	
 }

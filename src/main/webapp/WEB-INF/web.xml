@@ -6,12 +6,52 @@
   <display-name>Archetype Created Web Application</display-name>
   
   <servlet>
-   <servlet-name>TestServlet</servlet-name>
-   <servlet-class>by.iba.student.web.servlet.TestServlet</servlet-class>
+   <servlet-name>StudentServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.StudentServlet</servlet-class>
+  </servlet>
+  <servlet>
+   <servlet-name>StudyServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.StudyServlet</servlet-class>
+  </servlet>
+  <servlet>
+   <servlet-name>GroupServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.GroupServlet</servlet-class>
+  </servlet>
+  <servlet>
+   <servlet-name>ProfessorServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.ProfessorServlet</servlet-class>
+  </servlet>
+  <servlet>
+   <servlet-name>MarkServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.MarkServlet</servlet-class>
+  </servlet>
+  <servlet>
+   <servlet-name>UserServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.UserServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-   <servlet-name>TestServlet</servlet-name>
-   <url-pattern>/test</url-pattern>
+   <servlet-name>StudentServlet</servlet-name>
+   <url-pattern>/students</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>StudyServlet</servlet-name>
+   <url-pattern>/studies</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>GroupServlet</servlet-name>
+   <url-pattern>/groups</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>ProfessorServlet</servlet-name>
+   <url-pattern>/professors</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>MarkServlet</servlet-name>
+   <url-pattern>/marks</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>UserServlet</servlet-name>
+   <url-pattern>/users</url-pattern>
   </servlet-mapping>
 </web-app>
