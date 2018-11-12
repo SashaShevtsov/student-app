@@ -7,6 +7,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<link href="WEB-INF/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="WEB-INF/resources/css/common.css" rel="stylesheet">
 <title>Students</title>
 </head>
 <body>

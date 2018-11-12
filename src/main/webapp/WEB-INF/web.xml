@@ -5,6 +5,15 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   
+  <context-param>
+    <param-name>student.file.path</param-name>
+    <param-value>D:\\workspace_project\\student-app\\src\\main\\java\\resources\\students.csv</param-value>
+  </context-param>
+  
+  <listener>
+    <listener-class>by.iba.student.web.listener.ApplicationContextListener</listener-class>
+  </listener>
+  
   <servlet>
    <servlet-name>StudentServlet</servlet-name>
    <servlet-class>by.iba.student.web.servlet.StudentServlet</servlet-class>
@@ -54,4 +63,5 @@
    <servlet-name>UserServlet</servlet-name>
    <url-pattern>/users</url-pattern>
   </servlet-mapping>
+ 
 </web-app>
