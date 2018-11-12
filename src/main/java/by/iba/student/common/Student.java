@@ -1,6 +1,8 @@
 package by.iba.student.common;
 
 public class Student {
+	private String id;
+	
     private String firstName;
      
     private String secondName;
@@ -13,6 +15,14 @@ public class Student {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
+	}
+    
+    public String getId() {
+		return id;
+	}
+    
+    public void setId(String id) {
+		this.id = id;
 	}
     
 	public String getFirstName() {
