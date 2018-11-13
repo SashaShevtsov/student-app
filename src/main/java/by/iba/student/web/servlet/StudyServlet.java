@@ -19,11 +19,8 @@ public class StudyServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		req.setAttribute("studies", STUDIES);
-		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/JSP/studies.jsp");
-		
+		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/JSP/studies.jsp");	
 		dispatcher.forward(req, resp);
 	}
 	

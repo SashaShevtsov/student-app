@@ -1,28 +1,14 @@
 package by.iba.student.common;
 
-public class Student {
-	private String id;
-	
+public class Student extends Entity{
     private String firstName;
-     
     private String secondName;
 
-    public Student() {
-		super();
-	}
+    public Student() {}
 
     public Student(String firstName, String secondName) {
-		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
-	}
-    
-    public String getId() {
-		return id;
-	}
-    
-    public void setId(String id) {
-		this.id = id;
 	}
     
 	public String getFirstName() {
@@ -40,9 +26,4 @@ public class Student {
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
-
-	
-	
-     
-     
 }

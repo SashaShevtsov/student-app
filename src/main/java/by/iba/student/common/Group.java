@@ -1,14 +1,11 @@
 package by.iba.student.common;
 
-public class Group {
+public class Group extends Entity{
 	private int groupNumber;
 
-	public Group() {
-		super();
-	}
+	public Group() {}
 
 	public Group(int groupNumber) {
-		super();
 		this.groupNumber = groupNumber;
 	}
 
@@ -19,6 +16,4 @@ public class Group {
 	public void setGroupNumber(int groupNumber) {
 		this.groupNumber = groupNumber;
 	}
-	
-	
 }

@@ -1,16 +1,13 @@
 package by.iba.student.common;
 
-public class User {
+public class User extends Entity{
 	private String userName;
 	private String password;
 	private String role;
 	
-	public User() {
-		super();
-	}
+	public User() {}
 
 	public User(String userName, String password, String role) {
-		super();
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
@@ -39,5 +36,4 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
 }

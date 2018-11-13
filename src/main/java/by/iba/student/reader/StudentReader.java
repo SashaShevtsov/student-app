@@ -24,10 +24,8 @@ public class StudentReader {
 			String line = null;
 			while((line = br.readLine())!= null) {
 				String[] data = line.split(";");
-				Student student = new Student();
+				Student student = new Student(data[1], data[2]);
 				student.setId(data[0]);
-				student.setFirstName(data[1]);
-				student.setSecondName(data[2]);
 				students.add(student);
 			}
 		} finally {

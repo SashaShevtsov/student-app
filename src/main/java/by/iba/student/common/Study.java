@@ -1,16 +1,12 @@
 package by.iba.student.common;
 
-public class Study {
+public class Study extends Entity{
 	private String name;
-	
 	private int hours;
 
-	public Study() {
-		super();
-	}
+	public Study() {}
 
 	public Study(String name, int hours) {
-		super();
 		this.name = name;
 		this.hours = hours;
 	}

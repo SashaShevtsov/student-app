@@ -2,19 +2,15 @@ package by.iba.student.common;
 
 import java.util.Date;
 
-public class Professor {
+public class Professor extends Entity{
 	private String firstName;
 	private String secondName;
 	private String fatherName;
-	
 	private Date birthDate;
 
-	public Professor() {
-		super();
-	}
+	public Professor() {}
 
 	public Professor(String firstName, String secondName, String fatherName, Date birthDate) {
-		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.fatherName = fatherName;
@@ -52,5 +48,4 @@ public class Professor {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	
 }
