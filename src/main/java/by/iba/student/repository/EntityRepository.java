@@ -8,21 +8,25 @@ import java.util.UUID;
 
 import by.iba.student.common.Entity;
 
-public abstract class EntityRepository {
-    private final Map<String, Entity> entities = new LinkedHashMap<>();
+public abstract class EntityRepository<T extends Entity> {
+    private final Map<String, T> entities = new LinkedHashMap<>();
 	
-	public EntityRepository(List<Entity> entities) {
+	public EntityRepository(List<T> entities) {
 		if(entities!=null) {
-			for(Entity ent: entities)
+			for(T ent: entities)
 				this.entities.put(ent.getId(), ent);
 		}
 	}
 	
-	public List<Entity> findAll(){
+	public List<T> findAll(){
 		return new ArrayList<>(entities.values());
 	}
 	
-	public Entity create(Entity entity) {
+	public T findOne(String id) {
+		return entities.get(id);
+	}
+	
+	public T create(T entity) {
 		String id = UUID.randomUUID().toString();
 		entity.setId(id);
 		entities.put(id, entity);
@@ -33,7 +37,7 @@ public abstract class EntityRepository {
 		entities.remove(id);
 	}
 	
-	public Entity update(Entity entity) {
+	public T update(T entity) {
 		entities.put(entity.getId(), entity);
 		return entity;
 	}

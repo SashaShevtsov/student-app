@@ -11,17 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.iba.student.common.Student;
 import by.iba.student.repository.StudentRepository;
+import by.iba.student.repository.StudentRepositoryDb;
 
 public class StudentServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6345194112526801506L;
 	
-	private StudentRepository studentRepository;
+	private StudentRepositoryDb studentRepository;
 	
 	@Override
 	public void init() throws ServletException {
 		ServletContext sc = getServletContext();
-		this.studentRepository = (StudentRepository)sc.getAttribute("studentRepository");
+		this.studentRepository = (StudentRepositoryDb)sc.getAttribute("studentRepository");
 	}
 	
 	@Override
@@ -38,7 +39,7 @@ public class StudentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String firstName = req.getParameter("firstName");
 		String secondName = req.getParameter("secondName");
-		studentRepository.create(new Student(firstName, secondName));
+//		studentRepository.create(new Student(firstName, secondName));
 		System.out.println(String.format("First name: %s, Second name: %s", firstName, secondName));
 		doGet(req, resp);
 	}

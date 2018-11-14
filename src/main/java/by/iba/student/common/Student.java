@@ -3,6 +3,7 @@ package by.iba.student.common;
 public class Student extends Entity{
     private String firstName;
     private String secondName;
+    private Group group;
 
     public Student() {}
 
@@ -25,5 +26,13 @@ public class Student extends Entity{
 
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 }
