@@ -33,6 +33,22 @@
      <version>1.2</version>
     </dependency>
     
+    <dependency>
+      <groupId>com.ibm.db2jcc</groupId>
+      <artifactId>db2jcc</artifactId>
+      <version>1.0.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/libs/db2jcc.jar</systemPath>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.ibm.db2jcc_license_cisuz</groupId>
+      <artifactId>db2jcc_license_cisuz</artifactId>
+      <version>1.0.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/libs/db2jcc_license_cisuz.jar</systemPath>
+    </dependency>
+    
   </dependencies>
   <build>
     <finalName>student-app</finalName>

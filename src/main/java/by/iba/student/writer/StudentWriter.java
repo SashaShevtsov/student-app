@@ -8,14 +8,14 @@ import java.util.List;
 import by.iba.student.common.Entity;
 import by.iba.student.common.Student;
 
-public class StudentWriter extends EntityWriter{
+public class StudentWriter extends EntityWriter<Student>{
 	
 	public StudentWriter(String path) {
 		super(path);
 	}
 	
 	@Override
-	public void write(List<Entity> students) throws IOException {
+	public void write(List<Student> students) throws IOException {
 		try(BufferedWriter bw = new BufferedWriter(new FileWriter(path))){
 			if(students!=null) {
 				for(Entity st: students) {
