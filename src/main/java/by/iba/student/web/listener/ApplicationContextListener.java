@@ -7,11 +7,14 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import by.iba.student.common.Entity;
 import by.iba.student.common.Group;
 import by.iba.student.common.Student;
 import by.iba.student.reader.EntityFileReader;
 import by.iba.student.reader.GroupLineMapper;
+import by.iba.student.reader.StudentLineMapper;
 import by.iba.student.reader.StudentReader;
 import by.iba.student.repository.EntityRepository;
 import by.iba.student.repository.GroupRepository;
@@ -32,21 +35,18 @@ public class ApplicationContextListener implements ServletContextListener {
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		try {
-			ServletContext sc = sce.getServletContext();
-			String filePath = getFilePath(sc, "group.file.path");
-			List<Group> groups = new EntityFileReader<Group>(filePath, new GroupLineMapper()).read();
-			this.groupRepository = new GroupRepository(groups);
-			
-			filePath = getFilePath(sc, "student.file.path");
-			List<Student> students = new StudentReader(filePath).read();
-			this.studentRepository = new StudentRepository(students);
-			
-			sce.getServletContext().setAttribute("groupRepository", groupRepository);
-			sce.getServletContext().setAttribute("studentRepository", studentRepository);
-		} catch (IOException e) {
-			throw new RuntimeException("Can't read students", e);
-		}
+		ServletContext sc = sce.getServletContext();
+		String filePath = getFilePath(sc, "group.file.path");
+		List<Group> groups = new EntityFileReader<Group>(filePath, new GroupLineMapper()).read();
+		this.groupRepository = new GroupRepository(groups);
+		
+		filePath = getFilePath(sc, "student.file.path");
+		List<Student> students = new EntityFileReader<Student>(filePath, new StudentLineMapper(groupRepository)).read();
+		this.studentRepository = new StudentRepository(students);
+		
+		sce.getServletContext().setAttribute("groupRepository", groupRepository);
+		sce.getServletContext().setAttribute("studentRepository", studentRepository);
+		sce.getServletContext().setAttribute("objectMapper", new ObjectMapper());
 	}
 
 	@Override

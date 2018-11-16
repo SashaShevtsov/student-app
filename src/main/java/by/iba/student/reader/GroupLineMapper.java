@@ -10,7 +10,7 @@ public class GroupLineMapper implements LineMapper<Group>{
 		Group group = new Group();
 		group.setId(data[0]);
 		group.setGroupNumber(Integer.valueOf(data[1]));
-		return null;
+		return group;
 	}
 
 }

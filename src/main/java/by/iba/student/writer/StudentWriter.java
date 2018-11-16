@@ -20,10 +20,11 @@ public class StudentWriter extends EntityWriter<Student>{
 			if(students!=null) {
 				for(Entity st: students) {
 					Student student = (Student)st;
-					String line = String.format("%s;%s;%s",
+					String line = String.format("%s;%s;%s;%s",
 							student.getId(),
 							student.getFirstName(),
-							student.getSecondName());
+							student.getSecondName(),
+							student.getGroup().getId());
 					bw.write(line);
 					bw.newLine();
 				}
