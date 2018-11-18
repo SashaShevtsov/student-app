@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import by.iba.student.common.Entity;
 
-public abstract class EntityRepository<T extends Entity> {
+public abstract class EntityRepository<T extends Entity> implements IRepository<T> {
     private final Map<String, T> entities = new LinkedHashMap<>();
 	
 	public EntityRepository(List<T> entities) {
@@ -18,11 +18,11 @@ public abstract class EntityRepository<T extends Entity> {
 		}
 	}
 	
-	public List<T> findAll(){
+	public List<T> findAll(T filter){
 		return new ArrayList<>(entities.values());
 	}
 	
-	public T findOne(String id) {
+	public T findById(String id) {
 		return entities.get(id);
 	}
 	

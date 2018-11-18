@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PageServlet extends HttpServlet{
+public class StudentPageServlet extends HttpServlet{
 
 	/**
 	 * 

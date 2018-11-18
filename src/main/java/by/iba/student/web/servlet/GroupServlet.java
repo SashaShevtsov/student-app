@@ -1,37 +1,50 @@
 package by.iba.student.web.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import by.iba.student.common.Group;
+import by.iba.student.filter.GroupFilter;
+import by.iba.student.repository.EntityRepositoryDb;
 
 public class GroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 3189551722384317888L;
 	
-    private final static List<Group> GROUPS = new ArrayList<Group>();
+	private EntityRepositoryDb<Group> groupRepository;
+	private ObjectMapper mapper;
+	
+	@Override
+	public void init() throws ServletException {
+		ServletContext sc = getServletContext();
+		this.groupRepository = (EntityRepositoryDb<Group>)sc.getAttribute("groupRepository");
+		this.mapper = (ObjectMapper)sc.getAttribute("objectMapper");
+	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		GroupFilter filter = new GroupFilter(req.getParameter("groupId"));
+		resp.setContentType("application/json");
+		List<Group> students = groupRepository.findAll(filter);
 		
-		req.setAttribute("groups", GROUPS);
-		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/JSP/groups.jsp");
-		
-		dispatcher.forward(req, resp);
+		PrintWriter pw = resp.getWriter();
+		pw.print(mapper.writeValueAsString(students));
+		pw.close();
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		int groupNumber = Integer.parseInt(req.getParameter("groupNumber"));
-		GROUPS.add(new Group(groupNumber));
-		System.out.println(String.format("Group number: %s", groupNumber));
+		String groupId = req.getParameter("groupId");
+		groupRepository.create(new Group(groupId));
+		System.out.println(String.format("Group id: %s", groupId));
 		doGet(req, resp);
 	}
 }

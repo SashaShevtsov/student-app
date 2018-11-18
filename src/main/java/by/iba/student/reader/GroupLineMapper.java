@@ -9,7 +9,6 @@ public class GroupLineMapper implements LineMapper<Group>{
 		String[] data = line.split(";");
 		Group group = new Group();
 		group.setId(data[0]);
-		group.setGroupNumber(Integer.valueOf(data[1]));
 		return group;
 	}
 

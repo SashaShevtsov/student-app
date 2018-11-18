@@ -43,8 +43,12 @@
    <servlet-class>by.iba.student.web.servlet.UserServlet</servlet-class>
   </servlet>
   <servlet>
-   <servlet-name>PageServlet</servlet-name>
-   <servlet-class>by.iba.student.web.servlet.PageServlet</servlet-class>
+   <servlet-name>StudentPageServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.StudentPageServlet</servlet-class>
+  </servlet>
+  <servlet>
+   <servlet-name>GroupPageServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.GroupPageServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -72,8 +76,12 @@
    <url-pattern>/users</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-   <servlet-name>PageServlet</servlet-name>
-   <url-pattern>/page</url-pattern>
+   <servlet-name>StudentPageServlet</servlet-name>
+   <url-pattern>/students-page</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>GroupPageServlet</servlet-name>
+   <url-pattern>/groups-page</url-pattern>
   </servlet-mapping>
   
   <resource-ref>

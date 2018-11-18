@@ -18,7 +18,7 @@ public class StudentLineMapper implements LineMapper<Student> {
 		Student student = new Student(data[1], data[2]);
 		student.setId(data[0]);
 		String groupId = data[3];
-		Group group = groupRepository.findOne(groupId);
+		Group group = groupRepository.findById(groupId);
 		student.setGroup(group);
 		return student;
 	}

@@ -7,13 +7,16 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link href="WEB-INF/resources/css/bootstrap.min.css" rel="stylesheet">
-<link href="WEB-INF/resources/css/common.css" rel="stylesheet">
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="resources/css/common.css" rel="stylesheet">
 <title>Students</title>
 </head>
 <body>
     <form action="/student-app/students" method = "GET">
-      <div><span> Filter name: </span><input type="text" name = "filterName"></div>
+      <p>Filter</p>
+      <div><span> First name: </span><input type="text" name = "filterFirstName"></div>
+      <div><span> Second name: </span><input type="text" name = "filterSecondName"></div>
+      <div><span> Group: </span><input type="text" name = "filterGroup"></div>
       <div><input type="submit" value="OK"></div>
     </form>
     <form action = "/student-app/students" method = "POST">
@@ -43,7 +46,7 @@
     	if (xhr.readyState != 4) return;  
     	  
         if (xhr.status != 200) {
-    	  alert("ERROE");
+    	  alert("ERROR");
     	  alert( xhr.status + ': ' + xhr.statusText ); 
     	} else {
           data = JSON.parse( xhr.responseText);
