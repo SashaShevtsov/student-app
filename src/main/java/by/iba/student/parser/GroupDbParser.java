@@ -2,6 +2,7 @@ package by.iba.student.parser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import by.iba.student.common.Group;
 import by.iba.student.filter.GroupFilter;
@@ -19,9 +20,11 @@ public class GroupDbParser extends EntityDbParser<Group>{
 	}
 	
 	@Override
-	public String getSqlFindAllByFilter(Group filter) {
+	public String getSqlFindAllByFilter(Group filter, List<Object> params) {
 		GroupFilter groupFilter = (GroupFilter) filter;
-		return sqlFindAll + " WHERE GROUP_NUMBER LIKE '"+filter.getId()+"%'";
+		return sqlFindAll + " WHERE " +
+		        SqlHelper.addLike(params, "GROUP_NUMBER", groupFilter.getId(), "AND") +
+		        "1=1";
 	}
 	
 	@Override

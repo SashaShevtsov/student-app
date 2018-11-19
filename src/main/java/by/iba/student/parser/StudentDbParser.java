@@ -2,6 +2,7 @@ package by.iba.student.parser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import by.iba.student.common.Group;
 import by.iba.student.common.Student;
@@ -24,11 +25,13 @@ public class StudentDbParser extends EntityDbParser<Student> {
 	}
 	
 	@Override
-	public String getSqlFindAllByFilter(Student filter) {
+	public String getSqlFindAllByFilter(Student filter, List<Object> params) {
 		StudentFilter studentFilter = (StudentFilter) filter;
-		return sqlFindAll + " WHERE FIRST_NAME LIKE '"+studentFilter.getFirstName()+"%' "+
-				"AND SECOND_NAME LIKE '"+studentFilter.getSecondName()+"%' "+
-		        "AND GROUP_NUMBER LIKE '"+studentFilter.getGroupId()+"%'";
+		return sqlFindAll + " WHERE "+
+				SqlHelper.addLike(params, "FIRST_NAME", studentFilter.getFirstName(), "AND")+
+				SqlHelper.addLike(params, "SECOND_NAME", studentFilter.getSecondName(), "AND")+
+				SqlHelper.addLike(params, "GROUP_NUMBER", studentFilter.getGroupId(), "AND")+
+				"1=1";
 	}
 	
 	@Override

@@ -14,6 +14,24 @@
     <param-value>D:\\workspace_project\\student-app\\src\\main\\java\\resources\\groups.csv</param-value>
   </context-param>
   
+  <filter>
+    <filter-name>LoggerFilter</filter-name>
+    <filter-class>by.iba.student.web.filter.LoggerFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>by.iba.student.web.filter.AuthFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>LoggerFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
   <listener>
     <listener-class>by.iba.student.web.listener.ApplicationContextListener</listener-class>
   </listener>
@@ -50,6 +68,10 @@
    <servlet-name>GroupPageServlet</servlet-name>
    <servlet-class>by.iba.student.web.servlet.GroupPageServlet</servlet-class>
   </servlet>
+  <servlet>
+   <servlet-name>LoginServlet</servlet-name>
+   <servlet-class>by.iba.student.web.servlet.LoginServlet</servlet-class>
+  </servlet>
   
   <servlet-mapping>
    <servlet-name>StudentServlet</servlet-name>
@@ -83,6 +105,10 @@
    <servlet-name>GroupPageServlet</servlet-name>
    <url-pattern>/groups-page</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+   <servlet-name>LoginServlet</servlet-name>
+   <url-pattern>/login</url-pattern>
+  </servlet-mapping>
   
   <resource-ref>
       <description>DB Connection</description>
@@ -90,5 +116,6 @@
       <res-type>javax.sql.DataSource</res-type>
       <res-auth>Container</res-auth>
   </resource-ref>
+  
  
 </web-app>

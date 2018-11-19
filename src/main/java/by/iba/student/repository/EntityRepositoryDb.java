@@ -1,6 +1,7 @@
 package by.iba.student.repository;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -9,10 +10,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import by.iba.student.common.Entity;
-import by.iba.student.common.Group;
-import by.iba.student.common.Student;
 import by.iba.student.parser.EntityDbParser;
-import by.iba.student.util.StringUtil;
 
 public class EntityRepositoryDb<T extends Entity> implements IRepository<T> {
 
@@ -28,8 +26,14 @@ public class EntityRepositoryDb<T extends Entity> implements IRepository<T> {
 	public List<T> findAll(T filter) {
 		List<T> entities = new ArrayList<>();
 		try (Connection conn = dataSource.getConnection()) {
-			Statement statement = conn.createStatement();
-			ResultSet rs = statement.executeQuery(entityDbParser.getSqlFindAllByFilter(filter));			
+			List<Object> params = new ArrayList<>();
+			String sqlFindAll = entityDbParser.getSqlFindAllByFilter(filter, params);
+			PreparedStatement statement = conn.prepareStatement(sqlFindAll);
+			for(int i=0; i < params.size(); i++) {
+				statement.setObject(i+1, params.get(i));
+			}
+			ResultSet rs = statement.executeQuery();
+			
 			while (rs.next()) {
 				entities.add(entityDbParser.parse(rs));
 			}
@@ -41,11 +45,13 @@ public class EntityRepositoryDb<T extends Entity> implements IRepository<T> {
 	
 	@Override
 	public T findById(String id) {
-		T entity;
+		T entity = null;
 		try (Connection conn = dataSource.getConnection()) {
 			Statement statement = conn.createStatement();
-			ResultSet rs = statement.executeQuery(entityDbParser.getSqlFindById(id));			
-			entity = entityDbParser.parse(rs);
+			ResultSet rs = statement.executeQuery(entityDbParser.getSqlFindById(id));
+			if(rs.next()) {
+				entity = entityDbParser.parse(rs);
+			}
 		} catch (Throwable ex) {
 			throw new RuntimeException(ex);
 		}

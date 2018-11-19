@@ -7,12 +7,12 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link href="resources/css/bootstrap.min.css" rel="stylesheet">
-<link href="resources/css/common.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" type="text/css">
 <title>Students</title>
 </head>
 <body>
-    <form action="/student-app/students" method = "GET">
+    <form onsubmit="updateTable(event)">
       <p>Filter</p>
       <div><span> First name: </span><input type="text" name = "filterFirstName"></div>
       <div><span> Second name: </span><input type="text" name = "filterSecondName"></div>
@@ -27,7 +27,7 @@
         <input type="reset" value="Clean">
       </div>
     </form>
-    <table id="table">
+    <table id="table" class = "table table-bordered">
       <thead>
         <tr>
           <th> First Name </th>
@@ -35,44 +35,66 @@
           <th> Group </th>
         </tr>
       </thead>
+      <tbody id="tbody">
+      </tbody>
     </table>
     
     <script type="text/javascript">
-      var data;
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/student-app/students', true);
-      xhr.send(); 
-      xhr.onreadystatechange = function(){
-    	if (xhr.readyState != 4) return;  
+      
+      function updateTable(e){
+    	  if(e){
+    		  e.preventDefault();
+    	  }
+    		  
+    	  var firstName = document.getElementsByName('filterFirstName')[0].value;
+    	  var secondName = document.getElementsByName('filterSecondName')[0].value;
+    	  var groupId = document.getElementsByName('filterGroup')[0].value;
+    	  var url = "/student-app/students?" + addParam('filterFirstName', firstName)+
+    	        addParam('filterSecondName', secondName) +
+    	        addParam('filterGroup', groupId)
     	  
-        if (xhr.status != 200) {
-    	  alert("ERROR");
-    	  alert( xhr.status + ': ' + xhr.statusText ); 
-    	} else {
-          data = JSON.parse( xhr.responseText);
-          var table = document.getElementById('table'); 
-          table.insertAdjacentHTML( 'beforeend', createTable(data) );
-    	}
+    	  var data;
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', url, true);
+          xhr.send(); 
+          xhr.onreadystatechange = function(){
+        	if (xhr.readyState != 4) return;  
+        	  
+            if (xhr.status != 200) {
+        	  alert("ERROR");
+        	  alert( xhr.status + ': ' + xhr.statusText ); 
+        	} else {
+              data = JSON.parse( xhr.responseText);
+              var table = document.getElementById('tbody'); 
+              table.innerHTML = createTable(data);
+        	}
+          }
       }
-    
        
        function createTable(data) {
            var rowData;
            var rowHTML;
-           var tableHTML = "<tbody>";
+           var tableHTML = "";
 
            for (var i = data.length - 1; i >= 0; i--) {
                rowData = data[i];
                rowHTML = "<tr>";
                rowHTML += "<td>" + rowData.firstName + "</td>";
                rowHTML += "<td>" + rowData.secondName + "</td>";
+               rowHTML += "<td>" + rowData.group.id + "</td>";
                rowHTML += "</tr>";
                tableHTML += rowHTML;
            }
 
-           tableHTML += "</tbody>";
+           tableHTML += "";
            return tableHTML;
        }
+       
+       function addParam(field, value){
+    	   return field+"="+value+"&";
+       }
+       
+       updateTable();
     </script>
     
 </body>
