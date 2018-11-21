@@ -2,6 +2,7 @@ package by.iba.student.parser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import by.iba.student.common.Group;
@@ -16,12 +17,24 @@ public class StudentDbParser extends EntityDbParser<Student> {
 	public StudentDbParser(EntityRepositoryDb<Group> groupRepository) {
 		super("STUDENT");
 		this.groupRepository = groupRepository;
-		sqlCreate +=" (FIRST_NAME, SECOND_NAME) VALUES ";
+		sqlRemove += " WHERE STUDENT_ID=?";
+	}
+	
+	protected void formParamsToAdd(Student student, List<String> fieldsToAdd, List<Object> params) {
+		checkParamToAdd("FIRST_NAME", student.getFirstName(), fieldsToAdd, params);
+		checkParamToAdd("SECOND_NAME", student.getSecondName(), fieldsToAdd, params);
+		checkParamToAdd("GROUP_NUMBER", student.getGroup().getId(), fieldsToAdd, params);
 	}
 	
 	@Override
-	public String getSqlFindById(String id) {
-		return sqlFindAll + " WHERE STUDENT_ID="+id;
+	protected void setProperId(String id, List<Object> params) {
+		params.add(Integer.valueOf(id));
+	}
+	
+	@Override
+	public String getSqlFindById(String id, List<Object> params) {
+		setProperId(id, params);
+		return sqlFindAll + " WHERE STUDENT_ID=?";
 	}
 	
 	@Override
@@ -35,8 +48,16 @@ public class StudentDbParser extends EntityDbParser<Student> {
 	}
 	
 	@Override
-	public String getSqlCreate(Student student) {
-		return sqlCreate + "('" + student.getFirstName() + "', '" + student.getSecondName() + "')";
+	public String getSqlCreate(Student student, List<Object> params) {
+		List<String> fieldsToAdd = new ArrayList<>();
+		formParamsToAdd(student, fieldsToAdd, params);
+		return sqlCreate + SqlHelper.addCreate(fieldsToAdd);
+	}
+	
+	@Override
+	public String getSqlRemove(String id, List<Object> params) {
+		setProperId(id, params);
+		return sqlRemove;
 	}
 
 	@Override

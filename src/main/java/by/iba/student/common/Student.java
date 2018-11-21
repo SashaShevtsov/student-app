@@ -12,6 +12,12 @@ public class Student extends Entity{
 		this.secondName = secondName;
 	}
     
+    public Student(String firstName, String secondName, String groupId) {
+    	this.firstName = firstName;
+		this.secondName = secondName;
+		setGroup(new Group(groupId));
+    }
+    
 	public String getFirstName() {
 		return firstName;
 	}

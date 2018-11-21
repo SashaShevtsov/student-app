@@ -19,7 +19,7 @@
       <div><span> Group: </span><input type="text" name = "filterGroup"></div>
       <div><input type="submit" value="OK"></div>
     </form>
-    <form action = "/student-app/students" method = "POST">
+    <form onsubmit="addEntity(event)">
       <div><span> First name: </span><input type="text" name = "firstName"></div>
       <div><span> Second name: </span><input type="text" name = "secondName"></div>
       <div>
@@ -70,6 +70,52 @@
         	}
           }
       }
+      
+      function addEntity(e){
+    	  if(e){
+    		  e.preventDefault();
+    	  }
+    		  
+    	  var firstName = document.getElementsByName('firstName')[0].value;
+    	  var secondName = document.getElementsByName('secondName')[0].value;
+    	  var url = "/student-app/students?" + addParam('firstName', firstName)+
+    	        addParam('secondName', secondName)
+    	  
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', url, true);
+          xhr.send(); 
+          xhr.onreadystatechange = function(){
+        	if (xhr.readyState != 4) return;  
+        	  
+            if (xhr.status != 200) {
+        	  alert( xhr.status + ': ' + xhr.statusText ); 
+        	} else {
+              updateTable(e);
+        	}
+          }
+      }
+      
+      function deleteEntity(e, id){
+    	  if(e){
+    		  e.preventDefault();
+    	  }
+    	  
+    	  
+          var xhr = new XMLHttpRequest();
+          xhr.open('DELETE', "/student-app/students/"+id, true);
+          xhr.send(); 
+          xhr.onreadystatechange = function(){
+        	if (xhr.readyState != 4) return;  
+        	  
+            if (xhr.status != 200) {
+        	  alert( xhr.status + ': ' + xhr.statusText ); 
+        	} else {
+              updateTable(e);
+        	}
+          }
+    	  
+    	  
+      }
        
        function createTable(data) {
            var rowData;
@@ -82,6 +128,7 @@
                rowHTML += "<td>" + rowData.firstName + "</td>";
                rowHTML += "<td>" + rowData.secondName + "</td>";
                rowHTML += "<td>" + rowData.group.id + "</td>";
+               rowHTML += "<td><input type=\"button\" onclick=\"deleteEntity(event, " + rowData.id +")\" value=\"-\"></td>"
                rowHTML += "</tr>";
                tableHTML += rowHTML;
            }

@@ -50,9 +50,18 @@ public class StudentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String firstName = req.getParameter("firstName");
 		String secondName = req.getParameter("secondName");
-		studentRepository.create(new Student(firstName, secondName));
+		if(groupRepository.findById("fak")==null)
+			groupRepository.create(new Group("fak"));
+		studentRepository.create(new Student(firstName, secondName, "fak"));
 		System.out.println(String.format("First name: %s, Second name: %s", firstName, secondName));
-		doGet(req, resp);
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String pathToId = req.getPathInfo();
+	    String id = pathToId.substring(1, pathToId.length());
+	    studentRepository.remove(id);
+	    
 	}
 	
 }

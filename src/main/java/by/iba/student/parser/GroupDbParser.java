@@ -2,6 +2,7 @@ package by.iba.student.parser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import by.iba.student.common.Group;
@@ -11,12 +12,23 @@ import by.iba.student.util.StringUtil;
 public class GroupDbParser extends EntityDbParser<Group>{
 	public GroupDbParser() {
 		super("GROUP");
-		sqlCreate += " (GROUP_NUMBER) VALUES ";
+		sqlRemove += " WHERE GROUP_NUMBER=?";
 	}
 
 	@Override
-	public String getSqlFindById(String id) {
-		return sqlFindAll + " WHERE GROUP_NUMBER='"+id+"'";
+	protected void formParamsToAdd(Group group, List<String> fieldsToAdd, List<Object> params) {
+		checkParamToAdd("GROUP_NUMBER", group.getId(), fieldsToAdd, params);
+	}
+	
+	@Override
+	protected void setProperId(String id, List<Object> params) {
+		params.add(id);
+	}
+	
+	@Override
+	public String getSqlFindById(String id, List<Object> params) {
+		setProperId(id, params);
+		return sqlFindAll + " WHERE GROUP_NUMBER=?";
 	}
 	
 	@Override
@@ -28,8 +40,16 @@ public class GroupDbParser extends EntityDbParser<Group>{
 	}
 	
 	@Override
-	public String getSqlCreate(Group group) {
-		return sqlCreate + "('" + group.getId() + "')";
+	public String getSqlCreate(Group group, List<Object> params) {
+		List<String> fieldsToAdd = new ArrayList<>();
+		formParamsToAdd(group, fieldsToAdd, params);
+		return sqlCreate + SqlHelper.addCreate(fieldsToAdd);
+	}
+	
+	@Override
+	public String getSqlRemove(String id, List<Object> params) {
+		setProperId(id, params);
+		return sqlRemove;
 	}
 	
 	@Override
