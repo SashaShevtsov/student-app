@@ -15,9 +15,9 @@ public class StudentDbParser extends EntityDbParser<Student> {
 	private EntityRepositoryDb<Group> groupRepository;
 	
 	public StudentDbParser(EntityRepositoryDb<Group> groupRepository) {
-		super("STUDENT");
+		super("STUDENT", "STUDENT_ID");
 		this.groupRepository = groupRepository;
-		sqlRemove += " WHERE STUDENT_ID=?";
+		sqlUpdate += " FIRST_NAME=?, SECOND_NAME=?, GROUP_NUMBER=? WHERE STUDENT_ID=?";
 	}
 	
 	protected void formParamsToAdd(Student student, List<String> fieldsToAdd, List<Object> params) {
@@ -27,39 +27,13 @@ public class StudentDbParser extends EntityDbParser<Student> {
 	}
 	
 	@Override
-	protected void setProperId(String id, List<Object> params) {
-		params.add(Integer.valueOf(id));
+	protected void formFilterParamsToAdd(Student entityFilter, List<String> fieldsToAdd, List<Object> params) {
+		StudentFilter studentFilter = (StudentFilter) entityFilter;
+		checkParamToAdd("FIRST_NAME", studentFilter.getFirstName(), fieldsToAdd, params);
+		checkParamToAdd("SECOND_NAME", studentFilter.getSecondName(), fieldsToAdd, params);
+		checkParamToAdd("GROUP_NUMBER", studentFilter.getGroupId(), fieldsToAdd, params);
 	}
 	
-	@Override
-	public String getSqlFindById(String id, List<Object> params) {
-		setProperId(id, params);
-		return sqlFindAll + " WHERE STUDENT_ID=?";
-	}
-	
-	@Override
-	public String getSqlFindAllByFilter(Student filter, List<Object> params) {
-		StudentFilter studentFilter = (StudentFilter) filter;
-		return sqlFindAll + " WHERE "+
-				SqlHelper.addLike(params, "FIRST_NAME", studentFilter.getFirstName(), "AND")+
-				SqlHelper.addLike(params, "SECOND_NAME", studentFilter.getSecondName(), "AND")+
-				SqlHelper.addLike(params, "GROUP_NUMBER", studentFilter.getGroupId(), "AND")+
-				"1=1";
-	}
-	
-	@Override
-	public String getSqlCreate(Student student, List<Object> params) {
-		List<String> fieldsToAdd = new ArrayList<>();
-		formParamsToAdd(student, fieldsToAdd, params);
-		return sqlCreate + SqlHelper.addCreate(fieldsToAdd);
-	}
-	
-	@Override
-	public String getSqlRemove(String id, List<Object> params) {
-		setProperId(id, params);
-		return sqlRemove;
-	}
-
 	@Override
 	public Student parse(ResultSet resultSet) throws SQLException {
 		Student student = new Student();

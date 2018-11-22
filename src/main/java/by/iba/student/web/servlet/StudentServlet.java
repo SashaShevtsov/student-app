@@ -60,7 +60,21 @@ public class StudentServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String pathToId = req.getPathInfo();
 	    String id = pathToId.substring(1, pathToId.length());
-	    studentRepository.remove(id);
+	    studentRepository.remove(id);   
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String newFirstName = req.getParameter("newFirstName");
+		String newSecondName = req.getParameter("newSecondName");
+		String newGroupId = req.getParameter("newGroupId");
+		Student newStudent = new Student(newFirstName, newSecondName, newGroupId);
+		
+		String pathToId = req.getPathInfo();
+	    String id = pathToId.substring(1, pathToId.length()).split("?")[0];
+	    newStudent.setId(id);
+	    
+	    studentRepository.update(newStudent);
 	    
 	}
 	

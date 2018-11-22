@@ -95,8 +95,16 @@ public class EntityRepositoryDb<T extends Entity> implements IRepository<T> {
 
 	@Override
 	public T update(T entity) {
-		
-		return null;
+		try (Connection conn = dataSource.getConnection()) {
+			List<Object> params = new ArrayList<>();
+			String sqlUpdate = entityDbParser.getSqlUpdate(entity, params);
+			PreparedStatement statement = conn.prepareStatement(sqlUpdate);
+			setParams(statement, params);
+			int updateCount = statement.executeUpdate();			
+		} catch (Throwable ex) {
+			throw new RuntimeException(ex);
+		}
+		return entity;
 	}
 
 }

@@ -6,12 +6,12 @@ import by.iba.student.util.StringUtil;
 
 public class SqlHelper {
 	
-	public static String addLike(List<Object> params, String field, String value, String operator) {
-		String sql = "";
-		if(!StringUtil.isEmpty(value)) {
-			sql = field + " LIKE ? " + operator + " ";
-			params.add(value + "%");
+	public static String addLikes(List<String> fieldsToAdd) {
+		String sql = " WHERE ";
+		for(String field: fieldsToAdd){
+			sql += field + " LIKE ? AND ";
 		}
+		sql+="1=1";
 		return sql;
 	}
 	
