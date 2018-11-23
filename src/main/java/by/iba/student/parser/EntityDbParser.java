@@ -10,7 +10,7 @@ import by.iba.student.common.Student;
 import by.iba.student.util.StringUtil;
 
 public abstract class EntityDbParser<T extends Entity> {
-	private final String dbName = "UNIVERSITY";
+	private final String dbName = "BEGANSS";
 	private String tableName;
 	private String idColumn;
 	

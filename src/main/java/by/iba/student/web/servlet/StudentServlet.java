@@ -2,6 +2,7 @@ package by.iba.student.web.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -26,6 +27,11 @@ public class StudentServlet extends HttpServlet {
 
 	private ObjectMapper mapper;
 	
+	private String getIdFromPath(HttpServletRequest req) {
+		String pathToId = req.getPathInfo();
+	    return pathToId.substring(1, pathToId.length());
+	}
+	
 	@Override
 	public void init() throws ServletException {
 		ServletContext sc = getServletContext();
@@ -36,45 +42,40 @@ public class StudentServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		StudentFilter filter = new StudentFilter(req.getParameter("filterFirstName"),
-				req.getParameter("filterSecondName"), req.getParameter("filterGroup")); 
+		Object result = null;
 		resp.setContentType("application/json");
-		List<Student> students = studentRepository.findAll(filter);
-		
+		if(req.getPathInfo()!=null) {
+		    result = studentRepository.findById(getIdFromPath(req));
+		} else {
+			StudentFilter filter = new StudentFilter(req.getParameter("filterFirstName"),
+					req.getParameter("filterSecondName"), req.getParameter("filterGroup")); 
+			result = studentRepository.findAll(filter);
+		}
 		PrintWriter pw = resp.getWriter();
-		pw.print(mapper.writeValueAsString(students));
+		pw.print(mapper.writeValueAsString(result));
 		pw.close();
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String firstName = req.getParameter("firstName");
-		String secondName = req.getParameter("secondName");
-		if(groupRepository.findById("fak")==null)
-			groupRepository.create(new Group("fak"));
-		studentRepository.create(new Student(firstName, secondName, "fak"));
-		System.out.println(String.format("First name: %s, Second name: %s", firstName, secondName));
+		Student student = mapper.readValue(req.getReader(), Student.class);
+		Group fakeGroup = groupRepository.findById("fak");
+		if(fakeGroup==null)
+			fakeGroup = groupRepository.create(new Group("fak"));
+		student.setGroup(fakeGroup);
+		studentRepository.create(student);
 	}
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String pathToId = req.getPathInfo();
-	    String id = pathToId.substring(1, pathToId.length());
-	    studentRepository.remove(id);   
+	    studentRepository.remove(getIdFromPath(req));   
 	}
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String newFirstName = req.getParameter("newFirstName");
-		String newSecondName = req.getParameter("newSecondName");
-		String newGroupId = req.getParameter("newGroupId");
-		Student newStudent = new Student(newFirstName, newSecondName, newGroupId);
-		
-		String pathToId = req.getPathInfo();
-	    String id = pathToId.substring(1, pathToId.length()).split("?")[0];
-	    newStudent.setId(id);
-	    
-	    studentRepository.update(newStudent);
+		Student student = mapper.readValue(req.getReader(), Student.class);
+	    student.setId(getIdFromPath(req));
+	    studentRepository.update(student);
 	    
 	}
 	
